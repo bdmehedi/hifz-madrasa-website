@@ -1,0 +1,6 @@
+{
+  "name": "Hifz Madrasa Management System",
+  "description": "A comprehensive bilingual (Bangla & English) Hifz Madrasa portal with parent dashboard, digital daily diary (Sabaq, Sabqi, Amokhta), online admissions, exam results, attendance tracking, fee payments, and teacher routine/marks portal.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
