@@ -210,12 +210,15 @@ export interface ClassRoutineDay {
 
 export interface GalleryItem {
   id: string;
+  mediaType?: 'image' | 'video';
   title: string;
   titleEn: string;
-  category: 'all' | 'hifz' | 'dastarbandi' | 'campus' | 'award' | 'programs';
+  category: 'all' | 'hifz' | 'dastarbandi' | 'campus' | 'award' | 'programs' | 'recitation';
   categoryLabel: string;
   categoryLabelEn: string;
   imageUrl: string;
+  videoUrl?: string;
+  duration?: string;
   date: string;
   description: string;
   descriptionEn: string;

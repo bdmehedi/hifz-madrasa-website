@@ -709,7 +709,23 @@ export const INITIAL_HERO_SLIDES: HeroSlide[] = [
 
 export const INITIAL_GALLERY_ITEMS: GalleryItem[] = [
   {
+    id: 'gal-v1',
+    mediaType: 'video',
+    title: 'বার্ষিক দস্তারবন্দী সমাবর্তন ও পাগড়ি প্রদান অনুষ্ঠানের বিশেষ তথ্যচিত্র',
+    titleEn: 'Annual Dastarbandi Convocation Documentary & Quran Completion',
+    category: 'dastarbandi',
+    categoryLabel: 'দস্তারবন্দী ও সমাবর্তন',
+    categoryLabelEn: 'Dastarbandi Ceremony',
+    imageUrl: 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=1200&auto=format&fit=crop&q=80',
+    videoUrl: 'https://www.youtube.com/watch?v=0hYqA453t28',
+    duration: '১২:৪৫ মি.',
+    date: '২০২৬-০৭-১৬',
+    description: 'হিফজুল কুরআন সম্পন্নকারী নতুন হাফেজ ছাত্রদের মাথায় পাগড়ি পরিধান, সনদপত্র বিতরণ ও মুহতামিম সাহেবের আবেগঘন দোয়া।',
+    descriptionEn: 'Video documentary highlighting the graduation ceremony, turban investiture, and heartfelt prayers for new Huffaz.'
+  },
+  {
     id: 'gal-1',
+    mediaType: 'image',
     title: 'হিফজুল কুরআন ক্লাসে একাগ্রচিত্তে সবক ও তিলাওয়াত',
     titleEn: 'Focused Quran Memorization & Recitation Circle',
     category: 'hifz',
@@ -721,7 +737,23 @@ export const INITIAL_GALLERY_ITEMS: GalleryItem[] = [
     descriptionEn: 'Students reciting daily sabaq with proper tajweed rules in front of certified ustad.'
   },
   {
+    id: 'gal-v2',
+    mediaType: 'video',
+    title: 'আন্তর্জাতিক ক্বিরাআত সম্মেলনে মাদ্রাসার কৃতি ছাত্রের হৃদয়স্পর্শী তিলাওয়াত',
+    titleEn: 'Heart-Touching Quran Recitation by Madrasa Student',
+    category: 'recitation',
+    categoryLabel: 'ক্বিরাআত ও তিলাওয়াত',
+    categoryLabelEn: 'Qiraat & Recitation',
+    imageUrl: 'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?w=1200&auto=format&fit=crop&q=80',
+    videoUrl: 'https://www.youtube.com/watch?v=m7Bc3pLyij0',
+    duration: '০৮:১৫ মি.',
+    date: '২০২৬-০৮-০৫',
+    description: 'সহীহ মাখরাজ ও আন্তর্জাতিক ক্বিরাআত নিয়মানুযায়ী সূরা আর-রহমানের মন জুড়ানো সুর ও লাহানে তিলাওয়াত।',
+    descriptionEn: 'Emotional Quranic recitation of Surah Ar-Rahman demonstrating mastery of Tajweed rules.'
+  },
+  {
     id: 'gal-2',
+    mediaType: 'image',
     title: 'বার্ষিক দস্তারবন্দী মাহফিলে নতুন হাফেজদের পাগড়ি পরিধান',
     titleEn: 'Annual Dastarbandi Turban Ceremony for New Huffaz',
     category: 'dastarbandi',
@@ -733,7 +765,23 @@ export const INITIAL_GALLERY_ITEMS: GalleryItem[] = [
     descriptionEn: 'Grand celebration awarding turbans and honor scrolls to graduates completing 30 Juz.'
   },
   {
+    id: 'gal-v3',
+    mediaType: 'video',
+    title: 'হিফজ মাদ্রাসার প্রাত্যহিক রুটিন, সবক মস্ক ও মনোরম আবাসিক পরিবেশ',
+    titleEn: 'A Day in Hifz Madrasa: Routine, Sabaq & Campus Tour',
+    category: 'campus',
+    categoryLabel: 'ক্যাম্পাস ও পরিবেশ',
+    categoryLabelEn: 'Campus & Facilities',
+    imageUrl: 'https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?w=1200&auto=format&fit=crop&q=80',
+    videoUrl: 'https://www.youtube.com/watch?v=21X5lGlDOfg',
+    duration: '০৬:৩০ মি.',
+    date: '২০২৬-০৮-১২',
+    description: 'ফজরের পর থেকে রাত পর্যন্ত হিফজখানা ও আবাসিক ছাত্রদের নিয়মতান্ত্রিক রুটিন, তাহাজ্জুদ, খেলাধুলা ও পড়াশোনার খণ্ডচিত্র।',
+    descriptionEn: 'Comprehensive documentary covering daily schedule from Fajr sabaq circles to sports, dining and revision.'
+  },
+  {
     id: 'gal-3',
+    mediaType: 'image',
     title: 'জাতীয় হিফজুল কুরআন ও ক্বিরাআত প্রতিযোগিতায় পুরস্কার প্রাপ্তি',
     titleEn: 'National Quran Competition Victory & Award Ceremony',
     category: 'award',
@@ -746,6 +794,7 @@ export const INITIAL_GALLERY_ITEMS: GalleryItem[] = [
   },
   {
     id: 'gal-4',
+    mediaType: 'image',
     title: 'আধুনিক সুযোগ-সুবিধা সম্বলিত মনোরম ও সুপরিসর হিফজ হল',
     titleEn: 'Modern, Quiet & Air-Conditioned Hifz Study Hall',
     category: 'campus',
@@ -757,7 +806,23 @@ export const INITIAL_GALLERY_ITEMS: GalleryItem[] = [
     descriptionEn: 'Serene, clean and focused atmosphere designed specifically for profound Quran retention.'
   },
   {
+    id: 'gal-v4',
+    mediaType: 'video',
+    title: 'নূরানী ও মক্তব বিভাগের শিশুদের স্বতঃস্ফূর্ত হরফ মস্ক ও সহীহ উচ্চারণ',
+    titleEn: 'Noorani Maktab Children Learning Arabic Phonetics',
+    category: 'hifz',
+    categoryLabel: 'হিফজুল কুরআন বিভাগ',
+    categoryLabelEn: 'Hifz Department',
+    imageUrl: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1200&auto=format&fit=crop&q=80',
+    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    duration: '০৫:১০ মি.',
+    date: '২০২৬-০৮-১৮',
+    description: 'কোমলমতি শিশুদের মুখে বিশুদ্ধ উচ্চারণে আরবি ২৯টি হরফের মস্ক ও প্রাত্যহিক মাসনূন দোয়ার সম্মিলিত অনুশীলন।',
+    descriptionEn: 'Interactive demonstration of young learners practicing foundational Noorani Qaida and daily supplications.'
+  },
+  {
     id: 'gal-5',
+    mediaType: 'image',
     title: 'নূরানী ও মক্তব শিশুদের মাখরাজ ও হরফ মস্কের প্রশিক্ষণ',
     titleEn: 'Noorani Maktab Interactive Tajweed & Arabic Lessons',
     category: 'hifz',
@@ -770,7 +835,8 @@ export const INITIAL_GALLERY_ITEMS: GalleryItem[] = [
   },
   {
     id: 'gal-6',
-    title: 'ইসলামিক ইসলামিক রেফারেন্স লাইব্রেরি ও কিতাব অধ্যয়ন কক্ষ',
+    mediaType: 'image',
+    title: 'ইসলামিক রেফারেন্স লাইব্রেরি ও কিতাব অধ্যয়ন কক্ষ',
     titleEn: 'Islamic Reference Library & Classical Manuscript Study',
     category: 'campus',
     categoryLabel: 'ক্যাম্পাস ও পরিবেশ',
@@ -782,6 +848,7 @@ export const INITIAL_GALLERY_ITEMS: GalleryItem[] = [
   },
   {
     id: 'gal-7',
+    mediaType: 'image',
     title: 'বার্ষিক খতমে কুরআন, দোয়া ও অভিভাবক সমাবেশ',
     titleEn: 'Annual Quran Khatam, Du\'a & Parents Grand Assembly',
     category: 'programs',
@@ -794,6 +861,7 @@ export const INITIAL_GALLERY_ITEMS: GalleryItem[] = [
   },
   {
     id: 'gal-8',
+    mediaType: 'image',
     title: 'হিফজ সমাপনী ছাত্রদের আন্তর্জাতিক মানের সনদ প্রদান',
     titleEn: 'Official Hifz Sanad (Certificate) Distribution',
     category: 'dastarbandi',
@@ -817,7 +885,7 @@ const STORAGE_KEYS = {
   NOTICES: 'darulquran_notices_v1',
   ADMISSIONS: 'darulquran_admissions_v1',
   ROUTINES: 'darulquran_routines_v1',
-  GALLERY: 'darulquran_gallery_v2',
+  GALLERY: 'darulquran_gallery_v3',
   SLIDES: 'darulquran_slides_v2',
   CURRENT_USER: 'darulquran_current_user_v2',
   PASSWORD_PINS: 'darulquran_pins_v1'

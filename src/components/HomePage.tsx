@@ -19,11 +19,15 @@ import {
   Quote,
   Image as ImageIcon,
   Maximize2,
-  X
+  X,
+  Play,
+  Video,
+  Clock
 } from 'lucide-react';
 import { Language, Student, Notice, SabaqDiaryEntry, Teacher, HeroSlide, GalleryItem } from '../types';
 import { getTranslation } from '../utils/translations';
 import { HeroSlider } from './HeroSlider';
+import { getYouTubeEmbedUrl, getEffectiveThumbnail } from './MadrasaGallery';
 
 interface HomePageProps {
   lang: Language;
@@ -346,66 +350,102 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* 6. Featured Photo Gallery Highlights */}
+      {/* 6. Featured Media Gallery Highlights (Photos & Videos) */}
       {featuredGallery.length > 0 && (
         <section className="space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-1">
             <div>
               <div className="flex items-center gap-2">
-                <ImageIcon className="w-5 h-5 text-emerald-700" />
+                <Video className="w-5 h-5 text-emerald-700" />
                 <h2 className="text-lg sm:text-xl font-bold text-slate-900">
-                  {lang === 'bn' ? 'মাদ্রাসার ফটো ও কার্যক্রম গ্যালারি' : 'Campus & Photo Gallery Highlights'}
+                  {lang === 'bn' ? 'মাদ্রাসার ফটো ও ভিডিও গ্যালারি' : 'Photo & Video Gallery Highlights'}
                 </h2>
               </div>
               <p className="text-xs text-slate-500 mt-0.5">
-                {lang === 'bn' ? 'হিফজ ক্লাস, দস্তারবন্দী সমাবর্তন, পুরস্কার বিতরণী ও ক্যাম্পাস পরিবেশের নির্বাচিত ছবি' : 'Glimpses of Hifz classes, convocation, award ceremonies, and campus facilities'}
+                {lang === 'bn' ? 'হিফজ ক্লাস, দস্তারবন্দী সমাবর্তনের ভিডিও, পুরস্কার বিতরণী ও ক্যাম্পাস পরিবেশের নির্বাচিত ঝলক' : 'Glimpses of Hifz classes, convocation documentaries, award ceremonies, and campus facilities'}
               </p>
             </div>
 
             <button
               onClick={() => onNavigate('gallery')}
-              className="px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-bold rounded-xl transition flex items-center gap-1.5 self-start sm:self-auto shadow-sm"
+              className="px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-bold rounded-xl transition flex items-center gap-1.5 self-start sm:self-auto shadow-sm cursor-pointer"
             >
-              <span>{lang === 'bn' ? 'সকল ছবি দেখুন' : 'View Full Gallery'}</span>
+              <span>{lang === 'bn' ? 'সকল ছবি ও ভিডিও দেখুন' : 'View Full Media Gallery'}</span>
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {featuredGallery.map((item) => (
-              <div
-                key={item.id}
-                onClick={() => setLightboxImage(item)}
-                className="group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg hover:border-emerald-400 transition cursor-pointer flex flex-col transform hover:-translate-y-0.5"
-              >
-                <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-100">
-                  <img
-                    src={item.imageUrl}
-                    alt={item.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    loading="lazy"
-                  />
-                  <div className="absolute top-2.5 left-2.5">
-                    <span className="px-2 py-0.5 rounded-md bg-black/70 backdrop-blur-sm text-amber-300 text-[10px] font-bold">
-                      {lang === 'bn' ? item.categoryLabel : item.categoryLabelEn}
-                    </span>
-                  </div>
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <div className="w-9 h-9 rounded-full bg-white/90 text-slate-900 flex items-center justify-center shadow">
-                      <Maximize2 className="w-4 h-4" />
+            {featuredGallery.map((item) => {
+              const isVideo = item.mediaType === 'video';
+              const thumbnailSrc = getEffectiveThumbnail(item);
+
+              return (
+                <div
+                  key={item.id}
+                  onClick={() => setLightboxImage(item)}
+                  className="group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg hover:border-emerald-400 transition cursor-pointer flex flex-col transform hover:-translate-y-0.5"
+                >
+                  <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-900">
+                    <img
+                      src={thumbnailSrc}
+                      alt={item.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                    />
+
+                    {/* Media Type & Category Badges */}
+                    <div className="absolute top-2.5 left-2.5 flex items-center gap-1">
+                      {isVideo ? (
+                        <span className="px-2 py-0.5 rounded-md bg-rose-600/90 backdrop-blur-sm text-white text-[10px] font-extrabold flex items-center gap-1 shadow">
+                          <Video className="w-3 h-3" />
+                          <span>{lang === 'bn' ? 'ভিডিও' : 'Video'}</span>
+                        </span>
+                      ) : (
+                        <span className="px-2 py-0.5 rounded-md bg-black/70 backdrop-blur-sm text-emerald-300 text-[10px] font-bold flex items-center gap-1">
+                          <ImageIcon className="w-3 h-3" />
+                          <span>{lang === 'bn' ? 'ছবি' : 'Photo'}</span>
+                        </span>
+                      )}
+
+                      <span className="px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-sm text-amber-300 text-[10px] font-medium">
+                        {lang === 'bn' ? item.categoryLabel : item.categoryLabelEn}
+                      </span>
                     </div>
+
+                    {/* Center Overlay: Play Button for Video, Zoom for Photo */}
+                    <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                      {isVideo ? (
+                        <div className="w-11 h-11 rounded-full bg-emerald-600 text-white flex items-center justify-center shadow-xl transform group-hover:scale-110 transition-all border border-white/80">
+                          <Play className="w-5 h-5 fill-current ml-0.5" />
+                        </div>
+                      ) : (
+                        <div className="w-9 h-9 rounded-full bg-white/90 text-slate-900 flex items-center justify-center shadow opacity-0 group-hover:opacity-100 transition-opacity">
+                          <Maximize2 className="w-4 h-4" />
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Duration badge if video */}
+                    {isVideo && item.duration && (
+                      <div className="absolute bottom-2 left-2 px-1.5 py-0.5 rounded bg-black/75 backdrop-blur-sm text-[10px] font-mono text-amber-300 flex items-center gap-1">
+                        <Clock className="w-2.5 h-2.5" />
+                        <span>{item.duration}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="p-3.5 space-y-1">
+                    <h3 className="text-xs font-bold text-slate-900 line-clamp-1 group-hover:text-emerald-800 transition">
+                      {lang === 'bn' ? item.title : item.titleEn}
+                    </h3>
+                    <p className="text-[11px] text-slate-500 line-clamp-2">
+                      {lang === 'bn' ? item.description : item.descriptionEn}
+                    </p>
                   </div>
                 </div>
-                <div className="p-3.5 space-y-1">
-                  <h3 className="text-xs font-bold text-slate-900 line-clamp-1 group-hover:text-emerald-800 transition">
-                    {lang === 'bn' ? item.title : item.titleEn}
-                  </h3>
-                  <p className="text-[11px] text-slate-500 line-clamp-2">
-                    {lang === 'bn' ? item.description : item.descriptionEn}
-                  </p>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </section>
       )}
@@ -432,7 +472,7 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* Lightbox Preview Modal */}
+      {/* Lightbox Preview Modal (Supports Video & Photo) */}
       {lightboxImage && (
         <div 
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm animate-in fade-in"
@@ -443,23 +483,73 @@ export const HomePage: React.FC<HomePageProps> = ({
             onClick={(e) => e.stopPropagation()}
           >
             <div className="p-4 bg-slate-900 flex items-center justify-between border-b border-slate-800">
-              <span className="px-2.5 py-1 rounded bg-emerald-800 text-amber-300 text-xs font-bold">
-                {lang === 'bn' ? lightboxImage.categoryLabel : lightboxImage.categoryLabelEn}
-              </span>
+              <div className="flex items-center gap-2">
+                {lightboxImage.mediaType === 'video' ? (
+                  <span className="px-2 py-0.5 rounded bg-rose-700 text-white text-xs font-bold flex items-center gap-1">
+                    <Video className="w-3 h-3" />
+                    <span>{lang === 'bn' ? 'ভিডিও প্লেয়ার' : 'Video Player'}</span>
+                  </span>
+                ) : (
+                  <span className="px-2 py-0.5 rounded bg-emerald-800 text-amber-300 text-xs font-bold">
+                    {lang === 'bn' ? 'স্থিরচিত্র' : 'Photo'}
+                  </span>
+                )}
+                <span className="text-xs text-slate-300 font-medium">
+                  {lang === 'bn' ? lightboxImage.categoryLabel : lightboxImage.categoryLabelEn}
+                </span>
+              </div>
+
               <button
                 onClick={() => setLightboxImage(null)}
-                className="p-1.5 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300"
+                className="p-1.5 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
-            <div className="max-h-[60vh] bg-black flex items-center justify-center">
-              <img
-                src={lightboxImage.imageUrl}
-                alt={lightboxImage.title}
-                className="max-h-[60vh] w-auto object-contain"
-              />
+
+            <div className="max-h-[60vh] bg-black flex items-center justify-center overflow-hidden">
+              {lightboxImage.mediaType === 'video' ? (
+                getYouTubeEmbedUrl(lightboxImage.videoUrl) ? (
+                  <iframe
+                    src={getYouTubeEmbedUrl(lightboxImage.videoUrl)!}
+                    title={lightboxImage.title}
+                    className="w-full aspect-video max-h-[58vh] border-0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                ) : lightboxImage.videoUrl && lightboxImage.videoUrl.endsWith('.mp4') ? (
+                  <video
+                    src={lightboxImage.videoUrl}
+                    controls
+                    autoPlay
+                    className="w-full max-h-[58vh]"
+                  />
+                ) : (
+                  <div className="p-8 text-center space-y-3">
+                    <div className="w-14 h-14 rounded-full bg-rose-600 text-white flex items-center justify-center mx-auto">
+                      <Play className="w-6 h-6 fill-current ml-0.5" />
+                    </div>
+                    {lightboxImage.videoUrl && (
+                      <a
+                        href={lightboxImage.videoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block px-4 py-2 bg-emerald-600 text-white text-xs font-bold rounded-xl"
+                      >
+                        {lang === 'bn' ? 'ভিডিওটি দেখুন' : 'Watch Video'}
+                      </a>
+                    )}
+                  </div>
+                )
+              ) : (
+                <img
+                  src={lightboxImage.imageUrl}
+                  alt={lightboxImage.title}
+                  className="max-h-[60vh] w-auto object-contain"
+                />
+              )}
             </div>
+
             <div className="p-4 bg-slate-900 space-y-1">
               <h3 className="text-sm font-bold text-emerald-300">
                 {lang === 'bn' ? lightboxImage.title : lightboxImage.titleEn}
