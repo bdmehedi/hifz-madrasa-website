@@ -9,8 +9,10 @@ import {
   ClassRoutineDay,
   User,
   HeroSlide,
-  GalleryItem
+  GalleryItem,
+  BlogPost
 } from '../types';
+import { INITIAL_BLOG_POSTS } from './blogData';
 import dastarbandiImg from '../assets/images/dastarbandi_convocation_1788755730087.jpg';
 import sanadCeremonyImg from '../assets/images/hifz_sanad_ceremony_1788755745298.jpg';
 import nooraniMaktabImg from '../assets/images/noorani_maktab_class_1788755759855.jpg';
@@ -887,6 +889,7 @@ const STORAGE_KEYS = {
   ROUTINES: 'darulquran_routines_v1',
   GALLERY: 'darulquran_gallery_v3',
   SLIDES: 'darulquran_slides_v2',
+  BLOGS: 'darulquran_blogs_v1',
   CURRENT_USER: 'darulquran_current_user_v2',
   PASSWORD_PINS: 'darulquran_pins_v1'
 };
@@ -937,7 +940,8 @@ export const getInitialData = () => {
     admissions: loadOrSet<AdmissionApplication[]>(STORAGE_KEYS.ADMISSIONS, INITIAL_ADMISSIONS),
     routines: loadOrSet<ClassRoutineDay[]>(STORAGE_KEYS.ROUTINES, INITIAL_CLASS_ROUTINES),
     gallery: sanitizedGallery,
-    slides: sanitizedSlides
+    slides: sanitizedSlides,
+    blogs: loadOrSet<BlogPost[]>(STORAGE_KEYS.BLOGS, INITIAL_BLOG_POSTS)
   };
 };
 

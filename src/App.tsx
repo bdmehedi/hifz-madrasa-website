@@ -12,7 +12,8 @@ import {
   AdmissionApplication, 
   ClassRoutineDay,
   HeroSlide,
-  GalleryItem
+  GalleryItem,
+  BlogPost
 } from './types';
 import { 
   getInitialData,
@@ -22,6 +23,7 @@ import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { HomePage } from './components/HomePage';
 import { MadrasaGallery } from './components/MadrasaGallery';
+import { MadrasaBlog } from './components/MadrasaBlog';
 import { ParentDashboard } from './components/ParentDashboard';
 import { TeacherDashboard } from './components/TeacherDashboard';
 import { AdminDashboard } from './components/AdminDashboard';
@@ -56,6 +58,8 @@ export default function App() {
   const [routines] = useState<ClassRoutineDay[]>(() => getInitialData().routines);
   const [slides] = useState<HeroSlide[]>(() => getInitialData().slides);
   const [galleryItems, setGalleryItems] = useState<GalleryItem[]>(() => getInitialData().gallery);
+  const [blogs, setBlogs] = useState<BlogPost[]>(() => getInitialData().blogs);
+  const [selectedBlogPostId, setSelectedBlogPostId] = useState<string | null>(null);
 
   // Modals state
   const [showAuthModal, setShowAuthModal] = useState<boolean>(false);
@@ -92,8 +96,20 @@ export default function App() {
     saveToStorage('GALLERY', galleryItems);
   }, [galleryItems]);
 
+  useEffect(() => {
+    saveToStorage('BLOGS', blogs);
+  }, [blogs]);
+
   const handleAddNewGalleryItem = (newItem: GalleryItem) => {
     setGalleryItems((prev) => [newItem, ...prev]);
+  };
+
+  const handleAddNewBlogPost = (newPost: BlogPost) => {
+    setBlogs((prev) => [newPost, ...prev]);
+  };
+
+  const handleUpdateBlogPost = (updatedPost: BlogPost) => {
+    setBlogs((prev) => prev.map((p) => (p.id === updatedPost.id ? updatedPost : p)));
   };
 
   // Handler for Role Switching (Quick test bar or Navbar)
@@ -242,7 +258,12 @@ export default function App() {
         onLoginClick={() => setShowAuthModal(true)}
         onLogoutClick={() => { setCurrentUser(null); setCurrentView('home'); }}
         currentView={currentView}
-        onNavigate={setCurrentView}
+        onNavigate={(view) => {
+          if (view !== 'blog') {
+            setSelectedBlogPostId(null);
+          }
+          setCurrentView(view);
+        }}
         onQuickRoleSwitch={handleQuickRoleSwitch}
       />
 
@@ -253,13 +274,23 @@ export default function App() {
         {currentView === 'home' && (
           <HomePage
             lang={lang}
-            onNavigate={setCurrentView}
+            onNavigate={(view) => {
+              if (view !== 'blog') {
+                setSelectedBlogPostId(null);
+              }
+              setCurrentView(view);
+            }}
             students={students}
             notices={notices}
             diaries={diaries}
             teachers={teachers}
             slides={slides}
             galleryItems={galleryItems}
+            blogs={blogs}
+            onSelectBlogPost={(id) => {
+              setSelectedBlogPostId(id);
+              setCurrentView('blog');
+            }}
           />
         )}
 
@@ -367,6 +398,18 @@ export default function App() {
           />
         )}
 
+        {/* 6.6. MADRASA BLOG & ARTICLES */}
+        {currentView === 'blog' && (
+          <MadrasaBlog
+            posts={blogs}
+            lang={lang}
+            currentUser={currentUser}
+            onAddNewPost={handleAddNewBlogPost}
+            onUpdatePost={handleUpdateBlogPost}
+            initialSelectedPostId={selectedBlogPostId}
+          />
+        )}
+
         {/* 7. LIVE SABAQ DIARY SHORTCUT */}
         {currentView === 'diary' && (
           currentUser?.role === 'teacher' ? (
@@ -448,7 +491,12 @@ export default function App() {
       {/* Footer */}
       <Footer
         lang={lang}
-        onNavigate={setCurrentView}
+        onNavigate={(view) => {
+          if (view !== 'blog') {
+            setSelectedBlogPostId(null);
+          }
+          setCurrentView(view);
+        }}
       />
 
       {/* Single Unified Auth Modal */}

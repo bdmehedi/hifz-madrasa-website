@@ -242,3 +242,36 @@ export interface HeroSlide {
   secondaryActionLabelEn?: string;
   secondaryActionTarget?: string;
 }
+
+export interface BlogComment {
+  id: string;
+  authorName: string;
+  authorRole?: string;
+  comment: string;
+  date: string;
+}
+
+export interface BlogPost {
+  id: string;
+  title: string;
+  titleEn: string;
+  slug: string;
+  category: 'quran_hifz' | 'tajweed' | 'parenting' | 'islamic_lifestyle' | 'madrasa_news' | 'student_guidance';
+  categoryLabel: string;
+  categoryLabelEn: string;
+  author: string;
+  authorRole: string;
+  authorAvatar?: string;
+  publishDate: string;
+  readTime: string;
+  coverImage: string;
+  summary: string;
+  summaryEn: string;
+  content: string;
+  contentEn: string;
+  tags: string[];
+  viewsCount: number;
+  likesCount: number;
+  featured?: boolean;
+  comments?: BlogComment[];
+}

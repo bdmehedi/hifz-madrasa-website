@@ -17,7 +17,8 @@ import {
   Shield, 
   LayoutDashboard,
   User as UserIcon,
-  Image as ImageIcon
+  Image as ImageIcon,
+  Newspaper
 } from 'lucide-react';
 import { Language, User } from '../types';
 import { getTranslation } from '../utils/translations';
@@ -88,6 +89,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'result', label: getTranslation(lang, 'navResult'), icon: Award },
     { id: 'diary', label: getTranslation(lang, 'navDiary'), icon: ClipboardList, badge: lang === 'bn' ? 'লাইভ' : 'Live' },
     { id: 'gallery', label: getTranslation(lang, 'navGallery'), icon: ImageIcon },
+    { id: 'blog', label: getTranslation(lang, 'navBlog'), icon: Newspaper },
     { id: 'fees', label: getTranslation(lang, 'navFees'), icon: CreditCard },
     { id: 'notices', label: getTranslation(lang, 'navNotices'), icon: FileText },
     { id: 'routine', label: getTranslation(lang, 'navRoutine'), icon: Calendar },

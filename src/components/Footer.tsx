@@ -63,6 +63,11 @@ export const Footer: React.FC<FooterProps> = ({ lang, onNavigate }) => {
               </button>
             </li>
             <li>
+              <button onClick={() => onNavigate('blog')} className="hover:text-emerald-400 transition flex items-center gap-1.5">
+                <span className="text-emerald-500">›</span> {getTranslation(lang, 'navBlog')}
+              </button>
+            </li>
+            <li>
               <button onClick={() => onNavigate('result')} className="hover:text-emerald-400 transition flex items-center gap-1.5">
                 <span className="text-emerald-500">›</span> {getTranslation(lang, 'navResult')}
               </button>
