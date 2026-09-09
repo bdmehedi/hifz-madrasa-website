@@ -15,7 +15,10 @@ import {
   X, 
   AlertCircle,
   TrendingUp,
-  Sparkles
+  Sparkles,
+  Menu,
+  ChevronDown,
+  ChevronRight
 } from 'lucide-react';
 import { 
   Language, 
@@ -50,6 +53,7 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
   routines
 }) => {
   const [activeTab, setActiveTab] = useState<'sabaqEntry' | 'attendance' | 'marksUpload' | 'routine' | 'studentsList'>('sabaqEntry');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Sabaq Form State
   const [selectedStudentId, setSelectedStudentId] = useState<string>(students[0]?.id || 'ST-101');
@@ -227,68 +231,177 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
         </div>
       </div>
 
-      {/* Navigation Tabs */}
-      <div className="flex border-b border-slate-200 bg-white rounded-2xl p-1.5 shadow-sm gap-1 overflow-x-auto text-xs font-bold">
+      {/* Mobile Menu Toggle Bar */}
+      <div className="lg:hidden bg-white rounded-2xl p-3 border border-slate-200 shadow-sm flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <div className="w-8 h-8 rounded-xl bg-teal-800 text-white flex items-center justify-center shrink-0">
+            {activeTab === 'sabaqEntry' && <ClipboardList className="w-4 h-4" />}
+            {activeTab === 'attendance' && <UserCheck className="w-4 h-4" />}
+            {activeTab === 'marksUpload' && <Award className="w-4 h-4" />}
+            {activeTab === 'routine' && <Calendar className="w-4 h-4" />}
+            {activeTab === 'studentsList' && <UserIcon className="w-4 h-4" />}
+          </div>
+          <div className="truncate">
+            <div className="text-xs font-bold text-slate-900 truncate">
+              {activeTab === 'sabaqEntry' && (lang === 'bn' ? 'দৈনিক সবক ও রোজনামচা' : 'Daily Sabaq')}
+              {activeTab === 'attendance' && (lang === 'bn' ? 'ক্লাসের উপস্থিতি গ্রহণ' : 'Class Attendance')}
+              {activeTab === 'marksUpload' && (lang === 'bn' ? 'পরীক্ষার নম্বর আপলোড' : 'Marks Upload')}
+              {activeTab === 'routine' && (lang === 'bn' ? 'আমার ক্লাস রুটিন' : 'Class Routine')}
+              {activeTab === 'studentsList' && (lang === 'bn' ? `ছাত্র তালিকা (${students.length})` : `Students (${students.length})`)}
+            </div>
+            <div className="text-[10px] text-slate-500">
+              {lang === 'bn' ? 'বর্তমান সক্রিয় সেকশন' : 'Current Section'}
+            </div>
+          </div>
+        </div>
         <button
-          onClick={() => setActiveTab('sabaqEntry')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl transition shrink-0 ${
-            activeTab === 'sabaqEntry'
-              ? 'bg-teal-700 text-white shadow-sm'
-              : 'text-slate-600 hover:bg-slate-100'
-          }`}
+          type="button"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold flex items-center gap-1.5 transition shrink-0 cursor-pointer"
         >
-          <ClipboardList className="w-4 h-4" />
-          <span>{lang === 'bn' ? 'দৈনিক সবক ও রোজনামচা এন্ট্রি' : 'Daily Sabaq Entry'}</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('attendance')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl transition shrink-0 ${
-            activeTab === 'attendance'
-              ? 'bg-teal-700 text-white shadow-sm'
-              : 'text-slate-600 hover:bg-slate-100'
-          }`}
-        >
-          <UserCheck className="w-4 h-4" />
-          <span>{lang === 'bn' ? 'দ্রুত ক্লাসের উপস্থিতি গ্রহণ' : 'Class Attendance Taker'}</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('marksUpload')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl transition shrink-0 ${
-            activeTab === 'marksUpload'
-              ? 'bg-teal-700 text-white shadow-sm'
-              : 'text-slate-600 hover:bg-slate-100'
-          }`}
-        >
-          <Award className="w-4 h-4" />
-          <span>{lang === 'bn' ? 'পরীক্ষার নম্বর ও ফলাফল আপলোড' : 'Exam Marks Uploader'}</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('routine')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl transition shrink-0 ${
-            activeTab === 'routine'
-              ? 'bg-teal-700 text-white shadow-sm'
-              : 'text-slate-600 hover:bg-slate-100'
-          }`}
-        >
-          <Calendar className="w-4 h-4" />
-          <span>{lang === 'bn' ? 'আমার ক্লাস রুটিন' : 'My Class Routine'}</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('studentsList')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl transition shrink-0 ${
-            activeTab === 'studentsList'
-              ? 'bg-teal-700 text-white shadow-sm'
-              : 'text-slate-600 hover:bg-slate-100'
-          }`}
-        >
-          <UserIcon className="w-4 h-4" />
-          <span>{lang === 'bn' ? 'ছাত্রদের তালিকা ও হিফজ স্ট্যাটাস' : 'Students Directory'}</span>
+          <Menu className="w-3.5 h-3.5 text-teal-800" />
+          <span>{mobileMenuOpen ? (lang === 'bn' ? 'বন্ধ করুন' : 'Close') : (lang === 'bn' ? 'সব মেনু দেখুন' : 'All Menus')}</span>
+          <ChevronDown className={`w-3.5 h-3.5 transition-transform ${mobileMenuOpen ? 'rotate-180' : ''}`} />
         </button>
       </div>
+
+      {/* Main Dashboard Layout: Sidebar + Content Area */}
+      <div className="flex flex-col lg:flex-row gap-6 items-start">
+        
+        {/* Left Sidebar Navigation */}
+        <aside className={`w-full lg:w-72 xl:w-80 shrink-0 space-y-4 lg:sticky lg:top-20 transition-all ${
+          mobileMenuOpen ? 'block' : 'hidden lg:block'
+        }`}>
+          <div className="bg-white rounded-3xl p-3 sm:p-4 border border-slate-200 shadow-sm space-y-3">
+            
+            {/* Sidebar Header */}
+            <div className="flex items-center justify-between px-2 pt-1 pb-2 border-b border-slate-100">
+              <div>
+                <span className="text-[10px] font-bold tracking-wider uppercase text-teal-700 block">
+                  {lang === 'bn' ? 'শিক্ষক কন্ট্রোল মেনু' : 'TEACHER MENU'}
+                </span>
+                <span className="text-xs font-bold text-slate-800">
+                  {lang === 'bn' ? 'হিফজ ও একাডেমিক ম্যানেজমেন্ট' : 'Hifz & Academic Management'}
+                </span>
+              </div>
+              <span className="px-2 py-0.5 rounded-full bg-teal-50 text-teal-800 border border-teal-200 text-[10px] font-bold">
+                ৫টি মডিউল
+              </span>
+            </div>
+
+            {/* Vertical Menu Buttons */}
+            <nav className="space-y-1">
+              {[
+                {
+                  id: 'sabaqEntry' as const,
+                  label: lang === 'bn' ? 'দৈনিক সবক ও রোজনামচা' : 'Daily Sabaq Entry',
+                  subtitle: lang === 'bn' ? 'সবক, সবকী ও আমোখতা এন্ট্রি' : 'Sabaq, Sabqi & Amokhta',
+                  icon: ClipboardList,
+                  badge: null
+                },
+                {
+                  id: 'attendance' as const,
+                  label: lang === 'bn' ? 'ক্লাসের উপস্থিতি গ্রহণ' : 'Class Attendance',
+                  subtitle: lang === 'bn' ? 'আজকের দৈনিক হাজিরা শিট' : 'Daily student attendance',
+                  icon: UserCheck,
+                  badge: { text: 'দৈনিক', isHighlight: false }
+                },
+                {
+                  id: 'marksUpload' as const,
+                  label: lang === 'bn' ? 'পরীক্ষার নম্বর আপলোড' : 'Exam Marks Upload',
+                  subtitle: lang === 'bn' ? 'সাময়িক ও চূড়ান্ত মার্কস' : 'Term & final marks',
+                  icon: Award,
+                  badge: null
+                },
+                {
+                  id: 'routine' as const,
+                  label: lang === 'bn' ? 'আমার ক্লাস রুটিন' : 'My Class Routine',
+                  subtitle: lang === 'bn' ? 'সাপ্তাহিক ক্লাসের সময়সূচি' : 'Weekly timetable',
+                  icon: Calendar,
+                  badge: { text: `${routines.length} দিন`, isHighlight: false }
+                },
+                {
+                  id: 'studentsList' as const,
+                  label: lang === 'bn' ? 'ছাত্র তালিকা ও প্রগ্রেস' : 'Students Directory',
+                  subtitle: lang === 'bn' ? 'মোট বরাদ্দকৃত ছাত্র' : 'Allocated students',
+                  icon: UserIcon,
+                  badge: { text: `${students.length} জন`, isHighlight: true }
+                }
+              ].map((item) => {
+                const Icon = item.icon;
+                const isActive = activeTab === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => {
+                      setActiveTab(item.id);
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`w-full flex items-center justify-between p-2.5 rounded-2xl text-left transition-all duration-150 cursor-pointer ${
+                      isActive
+                        ? 'bg-gradient-to-r from-teal-800 to-emerald-800 text-white shadow-md shadow-teal-950/15'
+                        : 'text-slate-700 hover:bg-slate-100 hover:text-teal-900'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div
+                        className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition ${
+                          isActive
+                            ? 'bg-white/20 text-teal-200'
+                            : 'bg-teal-50 text-teal-700 group-hover:bg-teal-100'
+                        }`}
+                      >
+                        <Icon className="w-4 h-4" />
+                      </div>
+                      <div className="truncate">
+                        <div className="text-xs font-bold truncate leading-tight">
+                          {item.label}
+                        </div>
+                        <div
+                          className={`text-[10px] truncate leading-tight mt-0.5 ${
+                            isActive ? 'text-teal-200' : 'text-slate-400'
+                          }`}
+                        >
+                          {item.subtitle}
+                        </div>
+                      </div>
+                    </div>
+
+                    {item.badge && (
+                      <span
+                        className={`text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 ml-1.5 ${
+                          isActive
+                            ? 'bg-white/25 text-white'
+                            : item.badge.isHighlight
+                            ? 'bg-amber-400 text-amber-950 shadow-sm'
+                            : 'bg-slate-100 text-slate-600'
+                        }`}
+                      >
+                        {item.badge.text}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </nav>
+
+            {/* Teacher Details Footnote */}
+            <div className="p-3 rounded-2xl bg-gradient-to-br from-teal-50 to-emerald-50/50 border border-teal-100 text-center space-y-1">
+              <span className="text-xs font-bold text-teal-950 block">
+                {teacher.name}
+              </span>
+              <span className="text-[10px] text-teal-700 block">
+                {teacher.designation} • আইডি: {teacher.id}
+              </span>
+              <span className="text-[10px] font-mono text-slate-500 block pt-1 border-t border-teal-100">
+                মোট দায়িত্বপ্রাপ্ত ছাত্র: {students.length} জন
+              </span>
+            </div>
+          </div>
+        </aside>
+
+        {/* Right Main Content Area */}
+        <main className="flex-1 min-w-0 w-full space-y-6">
 
       {/* Tab 1: Sabaq Diary Entry Form */}
       {activeTab === 'sabaqEntry' && (
@@ -853,6 +966,9 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({
           </div>
         </div>
       )}
+
+        </main>
+      </div>
 
     </div>
   );

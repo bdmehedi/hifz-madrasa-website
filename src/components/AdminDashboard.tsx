@@ -15,7 +15,16 @@ import {
   Clock, 
   Eye,
   Edit,
-  Trash2
+  Trash2,
+  Sliders,
+  Sparkles,
+  ArrowRight,
+  Menu,
+  X,
+  ChevronRight,
+  ChevronDown,
+  LayoutDashboard,
+  ExternalLink
 } from 'lucide-react';
 import { 
   Language, 
@@ -23,9 +32,13 @@ import {
   Teacher, 
   FeeInvoice, 
   AdmissionApplication, 
-  Notice 
+  Notice,
+  HeroSlide,
+  GalleryItem,
+  BlogPost
 } from '../types';
 import { getTranslation } from '../utils/translations';
+import { AdminContentManager } from './AdminContentManager';
 
 interface AdminDashboardProps {
   lang: Language;
@@ -38,6 +51,19 @@ interface AdminDashboardProps {
   onUpdateAdmissionStatus: (id: string, status: 'approved' | 'rejected' | 'interview_scheduled', interviewDate?: string) => void;
   notices: Notice[];
   onAddNotice: (notice: Notice) => void;
+  slides?: HeroSlide[];
+  onUpdateSlide?: (slide: HeroSlide) => void;
+  onAddSlide?: (slide: HeroSlide) => void;
+  onDeleteSlide?: (id: string) => void;
+  galleryItems?: GalleryItem[];
+  onAddGalleryItem?: (item: GalleryItem) => void;
+  onUpdateGalleryItem?: (item: GalleryItem) => void;
+  onDeleteGalleryItem?: (id: string) => void;
+  blogs?: BlogPost[];
+  onAddBlog?: (post: BlogPost) => void;
+  onUpdateBlog?: (post: BlogPost) => void;
+  onDeleteBlog?: (id: string) => void;
+  onNavigate?: (view: string) => void;
 }
 
 export const AdminDashboard: React.FC<AdminDashboardProps> = ({
@@ -50,9 +76,23 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   admissions,
   onUpdateAdmissionStatus,
   notices,
-  onAddNotice
+  onAddNotice,
+  slides = [],
+  onUpdateSlide = () => {},
+  onAddSlide = () => {},
+  onDeleteSlide = () => {},
+  galleryItems = [],
+  onAddGalleryItem = () => {},
+  onUpdateGalleryItem = () => {},
+  onDeleteGalleryItem = () => {},
+  blogs = [],
+  onAddBlog = () => {},
+  onUpdateBlog = () => {},
+  onDeleteBlog = () => {},
+  onNavigate
 }) => {
-  const [activeTab, setActiveTab] = useState<'overview' | 'students' | 'admissions' | 'fees' | 'notices'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'students' | 'admissions' | 'fees' | 'notices' | 'content'>('overview');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   // New Student Modal state
   const [showAddStudent, setShowAddStudent] = useState(false);
@@ -166,7 +206,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             </div>
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => setActiveTab('content')}
+              className="px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs rounded-xl border border-emerald-400/40 shadow transition flex items-center gap-1.5 cursor-pointer"
+            >
+              <Sliders className="w-4 h-4 text-amber-300" />
+              <span>{lang === 'bn' ? 'ওয়েবসাইট কনটেন্ট (CMS)' : 'Website CMS'}</span>
+            </button>
             <button
               onClick={() => setShowAddStudent(true)}
               className="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-amber-950 font-bold text-xs rounded-xl shadow transition flex items-center gap-1.5"
@@ -185,54 +232,229 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         </div>
       </div>
 
-      {/* Nav Tabs */}
-      <div className="flex border-b border-slate-200 bg-white rounded-2xl p-1.5 shadow-sm gap-1 overflow-x-auto text-xs font-bold">
+      {/* Mobile Menu Toggle Bar */}
+      <div className="lg:hidden bg-white rounded-2xl p-3 border border-slate-200 shadow-sm flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <div className="w-8 h-8 rounded-xl bg-emerald-800 text-white flex items-center justify-center shrink-0">
+            {activeTab === 'overview' && <LayoutDashboard className="w-4 h-4" />}
+            {activeTab === 'content' && <Sliders className="w-4 h-4 text-amber-300" />}
+            {activeTab === 'students' && <Users className="w-4 h-4" />}
+            {activeTab === 'admissions' && <GraduationCap className="w-4 h-4" />}
+            {activeTab === 'fees' && <CreditCard className="w-4 h-4" />}
+            {activeTab === 'notices' && <FileText className="w-4 h-4" />}
+          </div>
+          <div className="truncate">
+            <div className="text-xs font-bold text-slate-900 truncate">
+              {activeTab === 'overview' && (lang === 'bn' ? 'সারসংক্ষেপ ও পরিসংখ্যান' : 'Overview')}
+              {activeTab === 'content' && (lang === 'bn' ? 'ওয়েবসাইট কনটেন্ট (CMS Demo)' : 'Website Content')}
+              {activeTab === 'students' && (lang === 'bn' ? `শিক্ষার্থী তালিকা (${students.length})` : `Students (${students.length})`)}
+              {activeTab === 'admissions' && (lang === 'bn' ? `ভর্তি আবেদন (${admissions.length})` : `Admissions (${admissions.length})`)}
+              {activeTab === 'fees' && (lang === 'bn' ? 'ফি ও আয়-ব্যয়' : 'Fees & Accounts')}
+              {activeTab === 'notices' && (lang === 'bn' ? `নোটিশ ব্যবস্থাপনা (${notices.length})` : `Notices (${notices.length})`)}
+            </div>
+            <div className="text-[10px] text-slate-500">
+              {lang === 'bn' ? 'বর্তমান সক্রিয় সেকশন' : 'Current Section'}
+            </div>
+          </div>
+        </div>
         <button
-          onClick={() => setActiveTab('overview')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl transition shrink-0 ${
-            activeTab === 'overview' ? 'bg-emerald-800 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'
-          }`}
+          type="button"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold flex items-center gap-1.5 transition shrink-0 cursor-pointer"
         >
-          <Shield className="w-4 h-4" />
-          <span>সারসংক্ষেপ ও পরিসংখ্যান</span>
-        </button>
-        <button
-          onClick={() => setActiveTab('students')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl transition shrink-0 ${
-            activeTab === 'students' ? 'bg-emerald-800 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'
-          }`}
-        >
-          <Users className="w-4 h-4" />
-          <span>শিক্ষার্থী তালিকা ({students.length})</span>
-        </button>
-        <button
-          onClick={() => setActiveTab('admissions')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl transition shrink-0 ${
-            activeTab === 'admissions' ? 'bg-emerald-800 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'
-          }`}
-        >
-          <GraduationCap className="w-4 h-4" />
-          <span>ভর্তি আবেদন ({admissions.length})</span>
-        </button>
-        <button
-          onClick={() => setActiveTab('fees')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl transition shrink-0 ${
-            activeTab === 'fees' ? 'bg-emerald-800 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'
-          }`}
-        >
-          <CreditCard className="w-4 h-4" />
-          <span>ফি ও আয়-ব্যয়</span>
-        </button>
-        <button
-          onClick={() => setActiveTab('notices')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl transition shrink-0 ${
-            activeTab === 'notices' ? 'bg-emerald-800 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'
-          }`}
-        >
-          <FileText className="w-4 h-4" />
-          <span>নোটিশ ব্যবস্থাপনা</span>
+          <Menu className="w-3.5 h-3.5 text-emerald-800" />
+          <span>{mobileMenuOpen ? (lang === 'bn' ? 'বন্ধ করুন' : 'Close') : (lang === 'bn' ? 'সব মেনু দেখুন' : 'All Menus')}</span>
+          <ChevronDown className={`w-3.5 h-3.5 transition-transform ${mobileMenuOpen ? 'rotate-180' : ''}`} />
         </button>
       </div>
+
+      {/* Main Dashboard Layout: Sidebar + Content Area */}
+      <div className="flex flex-col lg:flex-row gap-6 items-start">
+        
+        {/* Left Sidebar Navigation */}
+        <aside className={`w-full lg:w-72 xl:w-80 shrink-0 space-y-4 lg:sticky lg:top-20 transition-all ${
+          mobileMenuOpen ? 'block' : 'hidden lg:block'
+        }`}>
+          <div className="bg-white rounded-3xl p-3 sm:p-4 border border-slate-200 shadow-sm space-y-3">
+            
+            {/* Sidebar Header */}
+            <div className="flex items-center justify-between px-2 pt-1 pb-2 border-b border-slate-100">
+              <div>
+                <span className="text-[10px] font-bold tracking-wider uppercase text-emerald-700 block">
+                  {lang === 'bn' ? 'প্রশাসন কন্ট্রোল মেনু' : 'ADMIN CONTROL MENU'}
+                </span>
+                <span className="text-xs font-bold text-slate-800">
+                  {lang === 'bn' ? 'ম্যানেজমেন্ট কনসোল' : 'Management Console'}
+                </span>
+              </div>
+              <span className="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-[10px] font-bold">
+                ৬টি মডিউল
+              </span>
+            </div>
+
+            {/* Vertical Menu Buttons */}
+            <nav className="space-y-1">
+              {[
+                {
+                  id: 'overview' as const,
+                  label: lang === 'bn' ? 'সারসংক্ষেপ ও পরিসংখ্যান' : 'Overview & Analytics',
+                  subtitle: lang === 'bn' ? 'সাধারণ পরিসংখ্যান ও মেট্রিক্স' : 'General metrics & quick view',
+                  icon: LayoutDashboard,
+                  badge: null
+                },
+                {
+                  id: 'content' as const,
+                  label: lang === 'bn' ? 'ওয়েবসাইট কনটেন্ট (CMS)' : 'Website Content (CMS)',
+                  subtitle: lang === 'bn' ? 'ব্যানার, ব্লগ, গ্যালারি ও তথ্য' : 'Banners, blogs, gallery & info',
+                  icon: Sliders,
+                  badge: { text: 'CMS Demo', isHighlight: true, isAlert: false }
+                },
+                {
+                  id: 'students' as const,
+                  label: lang === 'bn' ? 'শিক্ষার্থী ডাটাবেজ' : 'Student Database',
+                  subtitle: lang === 'bn' ? 'সকল ছাত্র ও হিফজ প্রগ্রেস' : 'All students & records',
+                  icon: Users,
+                  badge: { text: `${students.length} জন`, isHighlight: false, isAlert: false }
+                },
+                {
+                  id: 'admissions' as const,
+                  label: lang === 'bn' ? 'ভর্তি আবেদনসমূহ' : 'Admission Applications',
+                  subtitle: lang === 'bn' ? 'অনলাইন ফরম ও অনুমোদন' : 'Applications & review',
+                  icon: GraduationCap,
+                  badge: admissions.some(a => a.status === 'pending')
+                    ? { text: `${admissions.filter(a => a.status === 'pending').length} পেন্ডিং`, isHighlight: true, isAlert: true }
+                    : { text: `${admissions.length} টি`, isHighlight: false, isAlert: false }
+                },
+                {
+                  id: 'fees' as const,
+                  label: lang === 'bn' ? 'ফি ও হিসাব-নিকাশ' : 'Fee & Financials',
+                  subtitle: lang === 'bn' ? 'মাসিক বেতন ও বকেয়া ট্র্যাকিং' : 'Invoices & dues tracking',
+                  icon: CreditCard,
+                  badge: { text: 'হিসাব', isHighlight: false, isAlert: false }
+                },
+                {
+                  id: 'notices' as const,
+                  label: lang === 'bn' ? 'নোটিশ ও বিজ্ঞপ্তি' : 'Notice Board',
+                  subtitle: lang === 'bn' ? 'মাদ্রাসার অফিসিয়াল সার্কুলার' : 'Official circulars',
+                  icon: FileText,
+                  badge: { text: `${notices.length} টি`, isHighlight: false, isAlert: false }
+                }
+              ].map((item) => {
+                const Icon = item.icon;
+                const isActive = activeTab === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => {
+                      setActiveTab(item.id);
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`w-full flex items-center justify-between p-2.5 rounded-2xl text-left transition-all duration-150 cursor-pointer ${
+                      isActive
+                        ? 'bg-gradient-to-r from-emerald-800 to-teal-800 text-white shadow-md shadow-emerald-950/15'
+                        : 'text-slate-700 hover:bg-slate-100 hover:text-emerald-900'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div
+                        className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition ${
+                          isActive
+                            ? 'bg-white/20 text-amber-300'
+                            : 'bg-emerald-50 text-emerald-700 group-hover:bg-emerald-100'
+                        }`}
+                      >
+                        <Icon className="w-4 h-4" />
+                      </div>
+                      <div className="truncate">
+                        <div className="text-xs font-bold truncate leading-tight">
+                          {item.label}
+                        </div>
+                        <div
+                          className={`text-[10px] truncate leading-tight mt-0.5 ${
+                            isActive ? 'text-emerald-200' : 'text-slate-400'
+                          }`}
+                        >
+                          {item.subtitle}
+                        </div>
+                      </div>
+                    </div>
+
+                    {item.badge && (
+                      <span
+                        className={`text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 ml-1.5 ${
+                          isActive
+                            ? 'bg-white/25 text-white'
+                            : item.badge.isAlert
+                            ? 'bg-amber-100 text-amber-800 border border-amber-300'
+                            : item.badge.isHighlight
+                            ? 'bg-amber-400 text-amber-950 shadow-sm'
+                            : 'bg-slate-100 text-slate-600'
+                        }`}
+                      >
+                        {item.badge.text}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </nav>
+
+            {/* Quick Actions in Sidebar */}
+            <div className="pt-2 border-t border-slate-100 space-y-1.5">
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-2 block">
+                {lang === 'bn' ? 'দ্রুত শর্টকাট' : 'Quick Actions'}
+              </span>
+              <button
+                onClick={() => {
+                  setShowAddStudent(true);
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full flex items-center gap-2 px-3 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 text-xs font-bold border border-amber-200/80 transition cursor-pointer"
+              >
+                <UserPlus className="w-3.5 h-3.5 text-amber-700" />
+                <span>{lang === 'bn' ? 'নতুন শিক্ষার্থী ভর্তি' : 'New Admission'}</span>
+              </button>
+              <button
+                onClick={() => {
+                  setShowAddNotice(true);
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full flex items-center gap-2 px-3 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-900 text-xs font-bold border border-emerald-200/80 transition cursor-pointer"
+              >
+                <Plus className="w-3.5 h-3.5 text-emerald-700" />
+                <span>{lang === 'bn' ? 'নোটিশ প্রকাশ' : 'New Notice'}</span>
+              </button>
+              {onNavigate && (
+                <button
+                  onClick={() => {
+                    onNavigate('home');
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-medium border border-slate-200 transition cursor-pointer"
+                >
+                  <div className="flex items-center gap-2">
+                    <ExternalLink className="w-3.5 h-3.5 text-slate-500" />
+                    <span>{lang === 'bn' ? 'মূল ওয়েবসাইট দেখুন' : 'View Public Website'}</span>
+                  </div>
+                  <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                </button>
+              )}
+            </div>
+
+            {/* Institutional Accreditation Footnote */}
+            <div className="p-2.5 rounded-2xl bg-gradient-to-br from-slate-50 to-emerald-50/50 border border-slate-100 text-center">
+              <span className="text-[10px] text-slate-500 font-semibold block">
+                {lang === 'bn' ? 'দারুল কুরআন একাডেমি' : 'Darul Quran Academy'}
+              </span>
+              <span className="text-[9px] text-emerald-800 font-bold block mt-0.5">
+                {lang === 'bn' ? 'অধিভুক্তি: বেফাকুল মাদারিস • ২০২৬' : 'Wafaq Affiliated • 2026'}
+              </span>
+            </div>
+          </div>
+        </aside>
+
+        {/* Right Main Content Area */}
+        <main className="flex-1 min-w-0 w-full space-y-6">
 
       {/* Overview Tab */}
       {activeTab === 'overview' && (
@@ -258,6 +480,29 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               <div className="text-2xl font-black text-rose-600 font-mono">৳ {totalPending.toLocaleString()}</div>
               <span className="text-[11px] text-rose-500 font-bold">তাগাদা পাঠানো প্রয়োজন</span>
             </div>
+          </div>
+
+          {/* CMS Demo Highlight Banner */}
+          <div className="bg-gradient-to-r from-emerald-950 via-teal-900 to-slate-900 text-white rounded-3xl p-5 sm:p-6 shadow-md border border-emerald-700/50 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="space-y-1">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-300 text-[11px] font-bold border border-amber-400/30">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>অ্যাডমিন কনটেন্ট পরিবর্তন ডেমো</span>
+              </div>
+              <h3 className="text-base sm:text-lg font-bold text-white">
+                ওয়েবসাইটের ব্যানার, ইসলামিক ব্লগ, গ্যালারি ও তথ্য পরিবর্তন করতে চান?
+              </h3>
+              <p className="text-xs text-emerald-200/80 max-w-2xl leading-relaxed">
+                কোনো কোডিং ছাড়া সরাসরি অ্যাডমিন ড্যাশবোর্ড থেকে হোমপেজ ব্যানার স্লাইডার, ইসলামিক গবেষণা প্রবন্ধ, ফটো ও ভিডিও গ্যালারি এবং মাদ্রাসার পরিচিতি এডিট ও লাইভ আপডেট করুন।
+              </p>
+            </div>
+            <button
+              onClick={() => setActiveTab('content')}
+              className="px-5 py-2.5 bg-amber-400 hover:bg-amber-300 text-amber-950 font-bold text-xs rounded-xl shadow transition flex items-center gap-2 shrink-0 cursor-pointer self-start md:self-auto"
+            >
+              <span>কনটেন্ট পরিবর্তন ডেমো দেখুন</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
           </div>
 
           {/* Quick Pending Admissions */}
@@ -446,6 +691,29 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           </div>
         </div>
       )}
+
+      {/* Content Management (CMS) Tab */}
+      {activeTab === 'content' && (
+        <AdminContentManager
+          lang={lang}
+          slides={slides}
+          onUpdateSlide={onUpdateSlide}
+          onAddSlide={onAddSlide}
+          onDeleteSlide={onDeleteSlide}
+          galleryItems={galleryItems}
+          onAddGalleryItem={onAddGalleryItem}
+          onUpdateGalleryItem={onUpdateGalleryItem}
+          onDeleteGalleryItem={onDeleteGalleryItem}
+          blogs={blogs}
+          onAddBlog={onAddBlog}
+          onUpdateBlog={onUpdateBlog}
+          onDeleteBlog={onDeleteBlog}
+          onNavigate={onNavigate}
+        />
+      )}
+
+        </main>
+      </div>
 
       {/* Add Student Modal */}
       {showAddStudent && (

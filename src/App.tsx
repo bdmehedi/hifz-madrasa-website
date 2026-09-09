@@ -56,7 +56,7 @@ export default function App() {
   const [notices, setNotices] = useState<Notice[]>(() => getInitialData().notices);
   const [admissions, setAdmissions] = useState<AdmissionApplication[]>(() => getInitialData().admissions);
   const [routines] = useState<ClassRoutineDay[]>(() => getInitialData().routines);
-  const [slides] = useState<HeroSlide[]>(() => getInitialData().slides);
+  const [slides, setSlides] = useState<HeroSlide[]>(() => getInitialData().slides);
   const [galleryItems, setGalleryItems] = useState<GalleryItem[]>(() => getInitialData().gallery);
   const [blogs, setBlogs] = useState<BlogPost[]>(() => getInitialData().blogs);
   const [selectedBlogPostId, setSelectedBlogPostId] = useState<string | null>(null);
@@ -100,8 +100,20 @@ export default function App() {
     saveToStorage('BLOGS', blogs);
   }, [blogs]);
 
+  useEffect(() => {
+    saveToStorage('SLIDES', slides);
+  }, [slides]);
+
   const handleAddNewGalleryItem = (newItem: GalleryItem) => {
     setGalleryItems((prev) => [newItem, ...prev]);
+  };
+
+  const handleUpdateGalleryItem = (updatedItem: GalleryItem) => {
+    setGalleryItems((prev) => prev.map((g) => (g.id === updatedItem.id ? updatedItem : g)));
+  };
+
+  const handleDeleteGalleryItem = (id: string) => {
+    setGalleryItems((prev) => prev.filter((g) => g.id !== id));
   };
 
   const handleAddNewBlogPost = (newPost: BlogPost) => {
@@ -110,6 +122,22 @@ export default function App() {
 
   const handleUpdateBlogPost = (updatedPost: BlogPost) => {
     setBlogs((prev) => prev.map((p) => (p.id === updatedPost.id ? updatedPost : p)));
+  };
+
+  const handleDeleteBlogPost = (id: string) => {
+    setBlogs((prev) => prev.filter((b) => b.id !== id));
+  };
+
+  const handleUpdateSlide = (updatedSlide: HeroSlide) => {
+    setSlides((prev) => prev.map((s) => (s.id === updatedSlide.id ? updatedSlide : s)));
+  };
+
+  const handleAddSlide = (newSlide: HeroSlide) => {
+    setSlides((prev) => [newSlide, ...prev]);
+  };
+
+  const handleDeleteSlide = (id: string) => {
+    setSlides((prev) => prev.filter((s) => s.id !== id));
   };
 
   // Handler for Role Switching (Quick test bar or Navbar)
@@ -358,6 +386,19 @@ export default function App() {
               onUpdateAdmissionStatus={handleUpdateAdmissionStatus}
               notices={notices}
               onAddNotice={handleAddNotice}
+              slides={slides}
+              onUpdateSlide={handleUpdateSlide}
+              onAddSlide={handleAddSlide}
+              onDeleteSlide={handleDeleteSlide}
+              galleryItems={galleryItems}
+              onAddGalleryItem={handleAddNewGalleryItem}
+              onUpdateGalleryItem={handleUpdateGalleryItem}
+              onDeleteGalleryItem={handleDeleteGalleryItem}
+              blogs={blogs}
+              onAddBlog={handleAddNewBlogPost}
+              onUpdateBlog={handleUpdateBlogPost}
+              onDeleteBlog={handleDeleteBlogPost}
+              onNavigate={setCurrentView}
             />
           ) : (
             <PermissionDeniedView
