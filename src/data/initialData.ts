@@ -10,7 +10,9 @@ import {
   User,
   HeroSlide,
   GalleryItem,
-  BlogPost
+  BlogPost,
+  DastarbandiSanad,
+  OfficialLetter
 } from '../types';
 import { INITIAL_BLOG_POSTS } from './blogData';
 import dastarbandiImg from '../assets/images/dastarbandi_convocation_1788755730087.jpg';
@@ -876,6 +878,136 @@ export const INITIAL_GALLERY_ITEMS: GalleryItem[] = [
   }
 ];
 
+export const INITIAL_DASTARBANDI_SANADS: DastarbandiSanad[] = [
+  {
+    id: 'SANAD-2026-001',
+    sanadNo: 'DQA-SANAD-2026-001',
+    studentId: 'ST-101',
+    studentRoll: '101',
+    studentName: 'মুহাম্মদ আব্দুল্লাহ বিন রফিক',
+    studentNameEn: 'Muhammad Abdullah Bin Rafiq',
+    fatherName: 'মোহাম্মদ রফিকুল ইসলাম',
+    motherName: 'মোসাম্মৎ ফাতেমা বেগম',
+    district: 'ঢাকা',
+    completedParas: 30,
+    completionDate: '২০২৬-০৭-২০',
+    issueDate: '২০২৬-০৮-১৫',
+    sanadType: 'full_hifz',
+    issuer: 'মুফতী মাহমুদ হাসান (মুহতামিম)',
+    hifzHead: 'হাফেজ ক্বারী আব্দুল্লাহ আল-মামুন (হিফজ প্রধান)',
+    registrationNo: 'BEFAQ-2026-9812',
+    grade: 'মুমতাজ (সর্বোচ্চ কৃতিত্ব - A+)',
+    remarks: 'সম্পূর্ণ ৩০ পারা কুরআনুল কারীম সহীহ তাজবীদ ও তারতীলের সাথে নিখুঁতভাবে হেফজ সম্পন্ন করেছে।'
+  },
+  {
+    id: 'SANAD-2026-002',
+    sanadNo: 'DQA-SANAD-2026-002',
+    studentId: 'ST-102',
+    studentRoll: '102',
+    studentName: 'হুযাইফা আহমেদ সালমান',
+    studentNameEn: 'Huzaifa Ahmed Salman',
+    fatherName: 'নুরুল ইসলাম সালমান',
+    motherName: 'আমিনা বেগম',
+    district: 'চট্টগ্রাম',
+    completedParas: 30,
+    completionDate: '২০২৬-০৭-২৮',
+    issueDate: '২০২৬-০৮-১৫',
+    sanadType: 'full_hifz',
+    issuer: 'মুফতী মাহমুদ হাসান (মুহতামিম)',
+    hifzHead: 'হাফেজ ক্বারী আব্দুল্লাহ আল-মামুন (হিফজ প্রধান)',
+    registrationNo: 'BEFAQ-2026-9815',
+    grade: 'মুমতাজ (সর্বোচ্চ কৃতিত্ব - A+)',
+    remarks: 'মাখরাজ ও সিফাত সহকারে সুন্দর সুললিত কণ্ঠে হেফজ তাকমীল করেছে।'
+  },
+  {
+    id: 'SANAD-2026-003',
+    sanadNo: 'DQA-SANAD-2026-003',
+    studentId: 'ST-103',
+    studentRoll: '103',
+    studentName: 'মুহাম্মদ আবু বকর সিদ্দীক',
+    studentNameEn: 'Muhammad Abu Bakr Siddiq',
+    fatherName: 'মুফতী আবুল বাশার',
+    motherName: 'মোসাম্মৎ রাবেয়া খাতুন',
+    district: 'সিলেট',
+    completedParas: 30,
+    completionDate: '২০২৬-০৮-০৫',
+    issueDate: '২০২৬-০৮-২০',
+    sanadType: 'full_hifz',
+    issuer: 'মুফতী মাহমুদ হাসান (মুহতামিম)',
+    hifzHead: 'হাফেজ ক্বারী আব্দুল্লাহ আল-মামুন (হিফজ প্রধান)',
+    registrationNo: 'BEFAQ-2026-9820',
+    grade: 'জায়্যিদ জিদ্দান (বিশেষ কৃতিত্ব - A)',
+    remarks: 'হাদর ও তারতীলে পারদর্শী হাফেজ।'
+  }
+];
+
+export const INITIAL_OFFICIAL_LETTERS: OfficialLetter[] = [
+  {
+    id: 'LETTER-2026-01',
+    smarakNo: 'DQA/ADM/2026/042',
+    subject: 'বার্ষিক হিফজ সমাপনী ও দস্তারবন্দী সম্মেলন ২০২৬ এর দাওয়াতনামা',
+    recipient: 'সম্মানিত অভিভাবক ও সুধীবৃন্দ',
+    recipientAddress: 'দারুল কুরআন একাডেমি কমপ্লেক্স',
+    date: '২০২৬-০৮-২০',
+    hijriDate: '১৫ সফর ১৪৪৮ হিজরী',
+    sender: 'মুফতী মাহমুদ হাসান',
+    senderTitle: 'প্রধান মুহতামিম ও পরিচালক',
+    content: `নাহমাদুহু ওয়া নুসল্লি আলা রাসুলিহিল কারীম। আম্মা বা'দ—
+সম্মানিত অভিভাবক ও দীনি ভাই,
+আসসালামু আলাইকুম ওয়া রাহমাতুল্লাহি ওয়া বারাকাতুহ।
+পরম করুণাময় আল্লাহ তায়ালার অশেষ মেহেরবানীতে দারুল কুরআন একাডেমি তাহফিজুল কুরআন মাদ্রাসা থেকে এ বছর একদল সৌভাগ্যবান শিক্ষার্থী পবিত্র কুরআনুল কারীমের পূর্ণাঙ্গ হিফজ সম্পন্ন করেছে। আলহামদুলিল্লাহ!
+
+হিফজ সমাপনকারী এই কৃতি হাফেজদের মাথায় মর্যাদাপূর্ণ সম্মাননা পাগড়ি (দস্তারবন্দী) পরিধান ও সনদপত্র বিতরণ উপলক্ষে আগামী ২৫ আগস্ট ২০২৬ রোজ শুক্রবার সকাল ৯:০০ ঘটিকায় মাদ্রাসার প্রধান মিলনায়তনে এক আড়ম্বরপূর্ণ "বার্ষিক দস্তারবন্দী ও দোয়া সম্মেলন" আয়োজন করা হয়েছে।
+
+উক্ত বরকতময় মাহফিলে প্রধান অতিথি হিসেবে উপস্থিত থাকবেন আন্তর্জাতিক খ্যাতিসম্পন্ন মুফাসসিরে কুরআন এবং দেশের শীর্ষস্থানীয় ওলামায়ে কেরাম ও শিক্ষাবিদগণ। 
+
+অতএব, কুরআনের এই মহান আসরে আপনার সানন্দ উপস্থিতি ও আন্তরিক দোয়া আমাদের কাম্য। আল্লাহ তায়ালা আমাদের সন্তানদের কুরআনের খাদেম হিসেবে কবুল করুন। আমীন।`,
+    status: 'published',
+    copiesTo: ['সভাপতি, গভর্নিং বডি', 'সকল বিভাগীয় প্রধান', 'অফিস নোটিশ বোর্ড']
+  },
+  {
+    id: 'LETTER-2026-02',
+    smarakNo: 'DQA/OFF/2026/039',
+    subject: 'পবিত্র মাহে রমজানুল মোবারকের বিশেষ তারাবীহ ও হিফজ মুরাজাআ ক্যাম্প সংক্রান্ত নির্দেশনা',
+    recipient: 'হিফজ বিভাগের সকল উস্তাদ ও শিক্ষার্থী',
+    recipientAddress: 'তাহফিজুল কুরআন বিভাগ',
+    date: '২০২৬-০৩-১০',
+    hijriDate: '২০ শা\'বান ১৪৪৭ হিজরী',
+    sender: 'মুফতী মাহমুদ হাসান',
+    senderTitle: 'প্রধান মুহতামিম ও পরিচালক',
+    content: `আসসালামু আলাইকুম ওয়া রাহমাতুল্লাহ।
+সকল শিক্ষক ও ছাত্রদের অবগতির জন্য জানানো যাচ্ছে যে, আসন্ন পবিত্র মাহে রমজানুল মোবারক উপলক্ষে হিফজ বিভাগের শিক্ষার্থীদের কুরআন পাক মজবুতকরণে বিশেষ 'হিফজ দাওর ও তারাবীহ খতম প্রশিক্ষণ' আগামী ১লা রমজান থেকে শুরু হবে।
+
+নির্দেশনাবলী:
+১. যে সকল ছাত্র বিভিন্ন মসজিদে খতমে তারাবীহ পড়াবে তাদের প্রতিদিন বাদ আসর বিশেষ মস্ক ক্লাসে অংশগ্রহণ বাধ্যতামূলক।
+২. বোর্ডিংয়ের রুটিন ও সাহরী-ইফতারের সময়সূচি অনুযায়ী উস্তাদগণ ছাত্রদের আমোখতা তদারকি করবেন।
+৩. কোনো ছাত্র উস্তাদের লিখিত অনুমতি ছাড়া মাদ্রাসার বাইরে তারাবীহ পড়াতে যেতে পারবে না।
+
+সকলের আন্তরিক সহযোগিতা প্রত্যাশা করছি।`,
+    status: 'published',
+    copiesTo: ['নাজেমে তা\'লীমাত (শিক্ষা সচিব)', 'হোস্টেল সুপারিনটেনডেন্ট']
+  },
+  {
+    id: 'LETTER-2026-03',
+    smarakNo: 'DQA/EXM/2026/028',
+    subject: '২য় সাময়িক পরীক্ষার ফলাফল প্রকাশ ও অভিভাবক সমাবেশ আহ্বান',
+    recipient: 'সকল সম্মানিত অভিভাবকবৃন্দ',
+    recipientAddress: 'দারুল কুরআন একাডেমি',
+    date: '২০২৬-০৮-১৫',
+    hijriDate: '১০ সফর ১৪৪৮ হিজরী',
+    sender: 'মুফতী মাহমুদ হাসান',
+    senderTitle: 'প্রধান মুহতামিম ও পরিচালক',
+    content: `আসসালামু আলাইকুম ওয়া রাহমাতুল্লাহ।
+অত্র মাদ্রাসার সম্মানিত অভিভাবকদের জানানো যাচ্ছে যে, হিফজ ও মক্তব বিভাগের "২য় সাময়িক পরীক্ষা ২০২৬"-এর ফলাফল আজ অনলাইন পোর্টাল এবং মাদ্রাসার নোটিশ বোর্ডে প্রকাশ করা হয়েছে।
+
+শিক্ষার্থীদের ফলাফলের সামগ্রিক অগ্রগতি ও করণীয় বিষয়ে আলোচনা করার জন্য আগামী শুক্রবার সকাল ১০:০০ টায় মাদ্রাসার মিলনায়তনে এক সাধারণ "অভিভাবক সমাবেশ" অনুষ্ঠিত হবে। 
+
+উক্ত সমাবেশে যথাসময়ে উপস্থিত থেকে আপনার সন্তানের ভবিষ্যৎ শিক্ষা ও চারিত্রিক গঠন বিষয়ে গঠনমূলক পরামর্শ প্রদানের জন্য অনুরোধ করা হলো।`,
+    status: 'published',
+    copiesTo: ['পরীক্ষা নিয়ন্ত্রক', 'শ্রেণি শিক্ষকবৃন্দ']
+  }
+];
+
 // LocalStorage Persistence helpers
 const STORAGE_KEYS = {
   USERS: 'darulquran_users_v2',
@@ -890,6 +1022,8 @@ const STORAGE_KEYS = {
   GALLERY: 'darulquran_gallery_v3',
   SLIDES: 'darulquran_slides_v2',
   BLOGS: 'darulquran_blogs_v1',
+  SANADS: 'darulquran_sanads_v1',
+  LETTERS: 'darulquran_letters_v1',
   CURRENT_USER: 'darulquran_current_user_v2',
   PASSWORD_PINS: 'darulquran_pins_v1'
 };
@@ -941,7 +1075,9 @@ export const getInitialData = () => {
     routines: loadOrSet<ClassRoutineDay[]>(STORAGE_KEYS.ROUTINES, INITIAL_CLASS_ROUTINES),
     gallery: sanitizedGallery,
     slides: sanitizedSlides,
-    blogs: loadOrSet<BlogPost[]>(STORAGE_KEYS.BLOGS, INITIAL_BLOG_POSTS)
+    blogs: loadOrSet<BlogPost[]>(STORAGE_KEYS.BLOGS, INITIAL_BLOG_POSTS),
+    sanads: loadOrSet<DastarbandiSanad[]>(STORAGE_KEYS.SANADS, INITIAL_DASTARBANDI_SANADS),
+    letters: loadOrSet<OfficialLetter[]>(STORAGE_KEYS.LETTERS, INITIAL_OFFICIAL_LETTERS)
   };
 };
 

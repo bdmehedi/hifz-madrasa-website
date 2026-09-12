@@ -275,3 +275,40 @@ export interface BlogPost {
   featured?: boolean;
   comments?: BlogComment[];
 }
+
+export interface DastarbandiSanad {
+  id: string;
+  sanadNo: string;
+  studentId: string;
+  studentName: string;
+  studentNameEn?: string;
+  studentRoll: string;
+  fatherName: string;
+  motherName?: string;
+  district?: string;
+  completedParas: number;
+  completionDate: string;
+  issueDate: string;
+  sanadType: 'full_hifz' | 'tajweed' | 'qiraat_hafz';
+  issuer: string;
+  hifzHead: string;
+  registrationNo: string;
+  grade: string;
+  remarks?: string;
+}
+
+export interface OfficialLetter {
+  id: string;
+  smarakNo: string;
+  subject: string;
+  recipient: string;
+  recipientAddress?: string;
+  date: string;
+  hijriDate?: string;
+  sender: string;
+  senderTitle: string;
+  content: string;
+  status: 'published' | 'draft';
+  attachments?: string;
+  copiesTo?: string[];
+}

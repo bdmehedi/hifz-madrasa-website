@@ -13,7 +13,9 @@ import {
   ClassRoutineDay,
   HeroSlide,
   GalleryItem,
-  BlogPost
+  BlogPost,
+  DastarbandiSanad,
+  OfficialLetter
 } from './types';
 import { 
   getInitialData,
@@ -59,6 +61,8 @@ export default function App() {
   const [slides, setSlides] = useState<HeroSlide[]>(() => getInitialData().slides);
   const [galleryItems, setGalleryItems] = useState<GalleryItem[]>(() => getInitialData().gallery);
   const [blogs, setBlogs] = useState<BlogPost[]>(() => getInitialData().blogs);
+  const [sanads, setSanads] = useState<DastarbandiSanad[]>(() => getInitialData().sanads);
+  const [letters, setLetters] = useState<OfficialLetter[]>(() => getInitialData().letters);
   const [selectedBlogPostId, setSelectedBlogPostId] = useState<string | null>(null);
 
   // Modals state
@@ -103,6 +107,30 @@ export default function App() {
   useEffect(() => {
     saveToStorage('SLIDES', slides);
   }, [slides]);
+
+  useEffect(() => {
+    saveToStorage('SANADS', sanads);
+  }, [sanads]);
+
+  useEffect(() => {
+    saveToStorage('LETTERS', letters);
+  }, [letters]);
+
+  const handleAddSanad = (newSanad: DastarbandiSanad) => {
+    setSanads((prev) => [newSanad, ...prev]);
+  };
+
+  const handleDeleteSanad = (id: string) => {
+    setSanads((prev) => prev.filter((s) => s.id !== id));
+  };
+
+  const handleAddLetter = (newLetter: OfficialLetter) => {
+    setLetters((prev) => [newLetter, ...prev]);
+  };
+
+  const handleDeleteLetter = (id: string) => {
+    setLetters((prev) => prev.filter((l) => l.id !== id));
+  };
 
   const handleAddNewGalleryItem = (newItem: GalleryItem) => {
     setGalleryItems((prev) => [newItem, ...prev]);
@@ -399,6 +427,14 @@ export default function App() {
               onUpdateBlog={handleUpdateBlogPost}
               onDeleteBlog={handleDeleteBlogPost}
               onNavigate={setCurrentView}
+              sanads={sanads}
+              onAddSanad={handleAddSanad}
+              onDeleteSanad={handleDeleteSanad}
+              letters={letters}
+              onAddLetter={handleAddLetter}
+              onDeleteLetter={handleDeleteLetter}
+              results={results}
+              onOpenMarksheet={(res) => setActivePrintResult(res)}
             />
           ) : (
             <PermissionDeniedView

@@ -24,7 +24,9 @@ import {
   ChevronRight,
   ChevronDown,
   LayoutDashboard,
-  ExternalLink
+  ExternalLink,
+  Award,
+  FileCheck
 } from 'lucide-react';
 import { 
   Language, 
@@ -35,10 +37,14 @@ import {
   Notice,
   HeroSlide,
   GalleryItem,
-  BlogPost
+  BlogPost,
+  DastarbandiSanad,
+  OfficialLetter,
+  ExamResult
 } from '../types';
 import { getTranslation } from '../utils/translations';
 import { AdminContentManager } from './AdminContentManager';
+import { OfficialDocumentsManager } from './OfficialDocumentsManager';
 
 interface AdminDashboardProps {
   lang: Language;
@@ -64,6 +70,14 @@ interface AdminDashboardProps {
   onUpdateBlog?: (post: BlogPost) => void;
   onDeleteBlog?: (id: string) => void;
   onNavigate?: (view: string) => void;
+  sanads?: DastarbandiSanad[];
+  onAddSanad?: (sanad: DastarbandiSanad) => void;
+  onDeleteSanad?: (id: string) => void;
+  letters?: OfficialLetter[];
+  onAddLetter?: (letter: OfficialLetter) => void;
+  onDeleteLetter?: (id: string) => void;
+  results?: ExamResult[];
+  onOpenMarksheet?: (result: ExamResult) => void;
 }
 
 export const AdminDashboard: React.FC<AdminDashboardProps> = ({
@@ -89,9 +103,17 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   onAddBlog = () => {},
   onUpdateBlog = () => {},
   onDeleteBlog = () => {},
-  onNavigate
+  onNavigate,
+  sanads = [],
+  onAddSanad = () => {},
+  onDeleteSanad = () => {},
+  letters = [],
+  onAddLetter = () => {},
+  onDeleteLetter = () => {},
+  results = [],
+  onOpenMarksheet = () => {}
 }) => {
-  const [activeTab, setActiveTab] = useState<'overview' | 'students' | 'admissions' | 'fees' | 'notices' | 'content'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'students' | 'admissions' | 'fees' | 'notices' | 'content' | 'documents'>('overview');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   // New Student Modal state
@@ -222,6 +244,13 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               <span>{lang === 'bn' ? 'নতুন শিক্ষার্থী ভর্তি' : 'New Admission'}</span>
             </button>
             <button
+              onClick={() => setActiveTab('documents')}
+              className="px-4 py-2 bg-teal-800 hover:bg-teal-700 text-white font-bold text-xs rounded-xl border border-teal-600 transition flex items-center gap-1.5 shadow-xs"
+            >
+              <Award className="w-4 h-4 text-amber-300" />
+              <span>{lang === 'bn' ? 'সনদ ও অফিসিয়াল চিঠি' : 'Sanad & Letters'}</span>
+            </button>
+            <button
               onClick={() => setShowAddNotice(true)}
               className="px-4 py-2 bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs rounded-xl border border-emerald-500 transition flex items-center gap-1.5"
             >
@@ -237,6 +266,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         <div className="flex items-center gap-2.5 min-w-0">
           <div className="w-8 h-8 rounded-xl bg-emerald-800 text-white flex items-center justify-center shrink-0">
             {activeTab === 'overview' && <LayoutDashboard className="w-4 h-4" />}
+            {activeTab === 'documents' && <Award className="w-4 h-4 text-amber-300" />}
             {activeTab === 'content' && <Sliders className="w-4 h-4 text-amber-300" />}
             {activeTab === 'students' && <Users className="w-4 h-4" />}
             {activeTab === 'admissions' && <GraduationCap className="w-4 h-4" />}
@@ -246,6 +276,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           <div className="truncate">
             <div className="text-xs font-bold text-slate-900 truncate">
               {activeTab === 'overview' && (lang === 'bn' ? 'সারসংক্ষেপ ও পরিসংখ্যান' : 'Overview')}
+              {activeTab === 'documents' && (lang === 'bn' ? 'দস্তারবন্দী সনদ, চিঠি ও মার্কশিট' : 'Sanad, Letters & Marksheets')}
               {activeTab === 'content' && (lang === 'bn' ? 'ওয়েবসাইট কনটেন্ট (CMS Demo)' : 'Website Content')}
               {activeTab === 'students' && (lang === 'bn' ? `শিক্ষার্থী তালিকা (${students.length})` : `Students (${students.length})`)}
               {activeTab === 'admissions' && (lang === 'bn' ? `ভর্তি আবেদন (${admissions.length})` : `Admissions (${admissions.length})`)}
@@ -288,7 +319,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 </span>
               </div>
               <span className="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-[10px] font-bold">
-                ৬টি মডিউল
+                ৭টি মডিউল
               </span>
             </div>
 
@@ -303,11 +334,18 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   badge: null
                 },
                 {
+                  id: 'documents' as const,
+                  label: lang === 'bn' ? 'সনদ, চিঠি ও মার্কশিট' : 'Sanad, Letters & Marksheets',
+                  subtitle: lang === 'bn' ? 'দস্তারবন্দী সনদ, অফিসিয়াল চিঠি ও ফলাফল' : 'Certificates, memos & marksheets',
+                  icon: Award,
+                  badge: { text: `${sanads.length + letters.length} টি`, isHighlight: true, isAlert: false }
+                },
+                {
                   id: 'content' as const,
                   label: lang === 'bn' ? 'ওয়েবসাইট কনটেন্ট (CMS)' : 'Website Content (CMS)',
                   subtitle: lang === 'bn' ? 'ব্যানার, ব্লগ, গ্যালারি ও তথ্য' : 'Banners, blogs, gallery & info',
                   icon: Sliders,
-                  badge: { text: 'CMS Demo', isHighlight: true, isAlert: false }
+                  badge: { text: 'CMS Demo', isHighlight: false, isAlert: false }
                 },
                 {
                   id: 'students' as const,
@@ -501,6 +539,29 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               className="px-5 py-2.5 bg-amber-400 hover:bg-amber-300 text-amber-950 font-bold text-xs rounded-xl shadow transition flex items-center gap-2 shrink-0 cursor-pointer self-start md:self-auto"
             >
               <span>কনটেন্ট পরিবর্তন ডেমো দেখুন</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Official Documents & Sanad Banner */}
+          <div className="bg-gradient-to-r from-teal-900 via-emerald-900 to-emerald-950 text-white rounded-3xl p-5 sm:p-6 shadow-md border border-teal-700/50 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="space-y-1">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-400/20 text-emerald-300 text-[11px] font-bold border border-emerald-400/30">
+                <Award className="w-3.5 h-3.5 text-amber-300" />
+                <span>অফিসিয়াল ডকুমেন্টস ও প্রিন্ট হাব</span>
+              </div>
+              <h3 className="text-base sm:text-lg font-bold text-white">
+                দস্তারবন্দী হিফজ সনদ, অফিশিয়াল লেটারহেড চিঠি ও মার্কশিট
+              </h3>
+              <p className="text-xs text-teal-200/80 max-w-2xl leading-relaxed">
+                হিফজ সমাপ্ত শিক্ষার্থীদের রাজকীয় ইসলামিক বর্ডারের সনদপত্র ইস্যু ও প্রিন্ট করুন, অফিসিয়াল সার্কুলার চিঠি লিখুন এবং পরীক্ষার প্রকাশিত মার্কশিট ডাউনলোড করুন।
+              </p>
+            </div>
+            <button
+              onClick={() => setActiveTab('documents')}
+              className="px-5 py-2.5 bg-white hover:bg-emerald-50 text-emerald-950 font-bold text-xs rounded-xl shadow transition flex items-center gap-2 shrink-0 cursor-pointer self-start md:self-auto"
+            >
+              <span>সনদ, চিঠি ও মার্কশিট দেখুন</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
@@ -709,6 +770,22 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           onUpdateBlog={onUpdateBlog}
           onDeleteBlog={onDeleteBlog}
           onNavigate={onNavigate}
+        />
+      )}
+
+      {/* Official Documents, Sanad & Marksheet Tab */}
+      {activeTab === 'documents' && (
+        <OfficialDocumentsManager
+          lang={lang}
+          sanads={sanads}
+          letters={letters}
+          results={results}
+          students={students}
+          onAddSanad={onAddSanad}
+          onDeleteSanad={onDeleteSanad}
+          onAddLetter={onAddLetter}
+          onDeleteLetter={onDeleteLetter}
+          onOpenMarksheet={onOpenMarksheet}
         />
       )}
 
