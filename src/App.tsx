@@ -268,12 +268,20 @@ export default function App() {
   // Update Admission Status
   const handleUpdateAdmissionStatus = (
     id: string, 
-    status: 'approved' | 'rejected' | 'interview_scheduled', 
-    interviewDate?: string
+    status: 'approved' | 'rejected' | 'interview_scheduled' | 'pending', 
+    interviewDate?: string,
+    interviewScore?: number,
+    remarks?: string
   ) => {
     setAdmissions(prev => prev.map(a => {
       if (a.id === id) {
-        return { ...a, status, interviewDate: interviewDate || a.interviewDate };
+        return { 
+          ...a, 
+          status, 
+          interviewDate: interviewDate !== undefined ? interviewDate : a.interviewDate,
+          interviewScore: interviewScore !== undefined ? interviewScore : a.interviewScore,
+          remarks: remarks !== undefined ? remarks : a.remarks
+        };
       }
       return a;
     }));

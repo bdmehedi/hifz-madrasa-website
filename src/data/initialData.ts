@@ -546,7 +546,8 @@ export const INITIAL_ADMISSIONS: AdmissionApplication[] = [
     appliedDate: '2026-08-22',
     status: 'interview_scheduled',
     interviewDate: '2026-09-02 সকাল ১০:০০ টা',
-    remarks: 'তাজবীদ সুন্দর, ৩ পারা হিফজ আছে।'
+    interviewScore: 88,
+    remarks: 'তাজবীদ সুন্দর, ৩ পারা হিফজ আছে। সুর ও মাখরাজ প্রশংসনীয়।'
   },
   {
     id: 'APP-2026-002',
@@ -565,7 +566,49 @@ export const INITIAL_ADMISSIONS: AdmissionApplication[] = [
     presentAddress: 'মিরপুর ডিওএইচএস, ঢাকা',
     appliedDate: '2026-08-26',
     status: 'pending',
-    remarks: 'নূরানী কায়দা শেষাংশ'
+    remarks: 'নূরানী কায়দা শেষাংশ মস্ক করছে, অত্যন্ত মনোযোগী।'
+  },
+  {
+    id: 'APP-2026-003',
+    applicationNo: 'DQ-ADM-903',
+    studentName: 'মুহাম্মদ সাফওয়ান হাবীব',
+    studentNameEn: 'Muhammad Safwan Habib',
+    fatherName: 'হাবিবুর রহমান শিকদার',
+    motherName: 'রাবেয়া বসরী',
+    guardianPhone: '01755667788',
+    guardianNid: '1982269554433221',
+    birthDate: '2014-11-03',
+    targetDepartment: 'hifz',
+    previousMadrasaOrSchool: 'দারুল আরকাম তাহফিজ একাডেমি',
+    memorizedParasBefore: 7,
+    residentialStatus: 'residential',
+    presentAddress: 'উত্তরা সেক্টর-৭, ঢাকা',
+    appliedDate: '2026-08-28',
+    status: 'approved',
+    interviewDate: '2026-08-30 সকাল ১১:০০ টা',
+    interviewScore: 94,
+    remarks: '৭ পারা অত্যন্ত পাকা। পূর্ণ আবাসিক হিফজ বিভাগে ভর্তি যোগ্য হিসেবে বিবেচিত।'
+  },
+  {
+    id: 'APP-2026-004',
+    applicationNo: 'DQ-ADM-904',
+    studentName: 'উসমান গণী তাহমিদ',
+    studentNameEn: 'Usman Gani Tahmid',
+    fatherName: 'আব্দুল কাদের চৌধুরী',
+    motherName: 'ফাতেমা তুজ জোহরা',
+    guardianPhone: '01922334411',
+    guardianNid: '1990269112233445',
+    birthDate: '2016-02-18',
+    targetDepartment: 'tajweed',
+    previousMadrasaOrSchool: 'মাদানিয়া মডেল মাদ্রাসা',
+    memorizedParasBefore: 2,
+    residentialStatus: 'day_care',
+    presentAddress: 'পল্লবী, মিরপুর-১২, ঢাকা',
+    appliedDate: '2026-08-29',
+    status: 'interview_scheduled',
+    interviewDate: '2026-09-06 দুপুর ১২:০০ টা',
+    interviewScore: 82,
+    remarks: 'তাজবীদ ও সিফাত মস্কের জন্য ডে-কেয়ার বিভাগে ভর্তি ইচ্ছুক।'
   }
 ];
 
