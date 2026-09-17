@@ -29,6 +29,7 @@ import { Language, Student, Notice, SabaqDiaryEntry, Teacher, HeroSlide, Gallery
 import { getTranslation } from '../utils/translations';
 import { HeroSlider } from './HeroSlider';
 import { getYouTubeEmbedUrl, getEffectiveThumbnail } from './MadrasaGallery';
+import { MadrasaMapLocation } from './MadrasaMapLocation';
 
 interface HomePageProps {
   lang: Language;
@@ -562,6 +563,9 @@ export const HomePage: React.FC<HomePageProps> = ({
           </div>
         </div>
       </section>
+
+      {/* 9. Madrasa Location & Google Map Interactive Navigation */}
+      <MadrasaMapLocation lang={lang} />
 
       {/* Lightbox Preview Modal (Supports Video & Photo) */}
       {lightboxImage && (

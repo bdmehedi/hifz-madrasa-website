@@ -2,6 +2,7 @@ import React from 'react';
 import { BookOpen, Award, CheckCircle2, Shield, Heart, Sparkles, Star } from 'lucide-react';
 import { Language } from '../types';
 import { getTranslation } from '../utils/translations';
+import { MadrasaMapLocation } from './MadrasaMapLocation';
 
 interface AboutMadrasaProps {
   lang: Language;
@@ -90,6 +91,9 @@ export const AboutMadrasa: React.FC<AboutMadrasaProps> = ({ lang }) => {
           </div>
         </div>
       </div>
+
+      {/* Madrasa Map & Commute Directions */}
+      <MadrasaMapLocation lang={lang} />
     </div>
   );
 };

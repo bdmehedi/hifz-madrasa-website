@@ -104,7 +104,17 @@ export const Footer: React.FC<FooterProps> = ({ lang, onNavigate }) => {
           <ul className="space-y-2.5 text-xs text-slate-300">
             <li className="flex items-start gap-2">
               <MapPin className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-              <span>{getTranslation(lang, 'address')}</span>
+              <div>
+                <span>{getTranslation(lang, 'address')}</span>
+                <a
+                  href="https://www.google.com/maps/dir/?api=1&destination=23.822340,90.365420"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-amber-400 hover:text-amber-300 font-bold block mt-1 hover:underline text-[11px]"
+                >
+                  {lang === 'bn' ? '📍 গুগল ম্যাপে দিকনির্দেশনা দেখুন →' : '📍 View Directions on Google Maps →'}
+                </a>
+              </div>
             </li>
             <li className="flex items-center gap-2">
               <Phone className="w-4 h-4 text-emerald-400 shrink-0" />
